@@ -21,13 +21,16 @@ Instantly navigate through all your experiment directories with:
 ## Quick Start
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tobi/try/refs/heads/main/try.rb > ~/.local/try.rb
+curl -sL https://raw.githubusercontent.com/QWYNG/try/refs/heads/for_fish/try.rb > ~/.local/try.rb
 
 # Make "try" executable so it can be run directly
 chmod +x ~/.local/try.rb
 
 # Add to your shell (bash/zsh)
 echo 'eval "$(~/.local/try.rb init ~/src/tries)"' >> ~/.zshrc
+
+# for fish users
+echo 'eval "$(~/.local/try.rb init ~/src/tries | psub)"' >> ~/.config/fish/config.fish
 ```
 
 ## The Problem

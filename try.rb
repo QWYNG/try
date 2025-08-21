@@ -554,7 +554,7 @@ if __FILE__ == $0
       this tool is not meant to be used directly,
       but added to your ~/.zshrc or ~/.bashrc:
 
-        {highlight}eval "$(#$0 init ~/src/tries)"{text}
+        {highlight}eval "(#$0 init ~/src/tries | psub)"{text}
 
       {h2}Usage:{text}
         init [--path PATH]  # Initialize shell function for aliasing
@@ -604,11 +604,22 @@ if __FILE__ == $0
 
     path_arg = tries_path ? " --path \"#{tries_path}\"" : ""
     puts <<~SHELL
-      try() {
-        script_path='#{script_path}';
-        cmd=$(/usr/bin/env ruby "$script_path" cd#{path_arg} "$@" 2>/dev/tty);
-        [ $? -eq 0 ] && eval "$cmd" || echo "$cmd";
-      }
+      function try
+        set -l script_path "#{script_path}"
+        set -l tmp (mktemp)
+
+        /usr/bin/env ruby "$script_path" cd --path "#{path_arg}" $argv 2>/dev/tty > $tmp
+        set -l exit_code $status
+
+        set -l cmd (string collect < $tmp)
+        rm -f $tmp
+
+        if test $exit_code -eq 0
+          eval $cmd
+        else
+          echo $cmd
+        end
+      end
     SHELL
     exit 0
   when 'cd'
