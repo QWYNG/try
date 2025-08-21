@@ -30,7 +30,7 @@ chmod +x ~/.local/try.rb
 echo 'eval "$(~/.local/try.rb init ~/src/tries)"' >> ~/.zshrc
 
 # for fish users
-echo 'eval "$(~/.local/try.rb init ~/src/tries | psub)"' >> ~/.config/fish/config.fish
+echo 'eval "$(~/.local/try.rb init ~/src/tries | string collect)"' >> ~/.config/fish/config.fish
 ```
 
 ## The Problem
